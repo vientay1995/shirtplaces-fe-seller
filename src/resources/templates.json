@@ -1,0 +1,148 @@
+[
+  {
+    "id": "teespring-t-shirt",
+    "name": "Teespring T-Shirt",
+    "short_name": "T-Shirt",
+    "description": "Start from $6.9",
+    "thumbnail": "/templates/1-front.png",
+    "price": 1099,
+    "attributes": {
+      "sizes": {
+        "label": "Sizes",
+        "options": [
+          { "value": "XS" },
+          { "value": "S", "price": 100 },
+          { "value": "M", "price": 199 },
+          { "value": "L", "price": 299 },
+          { "value": "XL", "price": 399 },
+          { "value": "XXL", "price": 499 }
+        ]
+      },
+      "colors": {
+        "label": "Colors",
+        "options": [
+          { "value": "Black", "type": "color", "hex": "#000000" },
+          {
+            "value": "Silver",
+            "type": "color",
+            "hex": "#C0C0C0",
+            "price": 1000
+          },
+          { "value": "Gray", "type": "color", "hex": "#808080" },
+          { "value": "White", "type": "color", "hex": "#FFFFFF" },
+          { "value": "Maroon", "type": "color", "hex": "#800000" },
+          { "value": "Red", "type": "color", "hex": "#FF0000" },
+          { "value": "Purple", "type": "color", "hex": "#800080" },
+          { "value": "Fuchsia", "type": "color", "hex": "#FF00FF" },
+          { "value": "Green", "type": "color", "hex": "#008000" },
+          { "value": "Lime", "type": "color", "hex": "#00FF00" },
+          { "value": "Olive", "type": "color", "hex": "#808000" },
+          { "value": "Yellow", "type": "color", "hex": "#FFFF00" },
+          { "value": "Navy", "type": "color", "hex": "#000080" },
+          { "value": "Blue", "type": "color", "hex": "#0000FF" },
+          { "value": "Teal", "type": "color", "hex": "#008080" },
+          { "value": "Aqua", "type": "color", "hex": "#00FFFF" }
+        ]
+      }
+    },
+    "displays": {
+      "front": {
+        "label": "Front",
+        "mockup": {
+          "outer": "/templates/1-front-outer.png",
+          "inner": "/templates/1-front.png"
+        },
+        "settings": {
+          "editorSize": { "width": 400, "height": 400 },
+          "captureSize": { "width": 216, "height": 284 },
+          "previewSize": { "width": 400, "height": 400 }
+        }
+      },
+      "back": {
+        "label": "Back",
+        "mockup": {
+          "outer": "/templates/1-back-outer.png",
+          "inner": "/templates/1-back.png"
+        },
+        "settings": {
+          "editorSize": { "width": 400, "height": 400 },
+          "captureSize": { "width": 176, "height": 204 },
+          "previewSize": { "width": 400, "height": 400 }
+        }
+      }
+    }
+  },
+  {
+    "id": "teespring-t-shirt-2",
+    "name": "Teespring T-Shirt 2",
+    "short_name": "T-Shirt 2",
+    "description": "Start from $6.9",
+    "thumbnail": "/templates/1-front.png",
+    "price": 1099,
+    "attributes": {
+      "sizes": {
+        "label": "Sizes",
+        "options": [
+          { "value": "XS" },
+          { "value": "S", "price": 100 },
+          { "value": "M", "price": 199 },
+          { "value": "L", "price": 299 },
+          { "value": "XL", "price": 399 },
+          { "value": "XXL", "price": 499 }
+        ]
+      },
+      "colors": {
+        "label": "Colors",
+        "options": [
+          { "value": "Black", "type": "color", "hex": "#000000" },
+          {
+            "value": "Silver",
+            "type": "color",
+            "hex": "#C0C0C0",
+            "price": 1000
+          },
+          { "value": "Gray", "type": "color", "hex": "#808080" },
+          { "value": "White", "type": "color", "hex": "#FFFFFF" },
+          { "value": "Maroon", "type": "color", "hex": "#800000" },
+          { "value": "Red", "type": "color", "hex": "#FF0000" },
+          { "value": "Purple", "type": "color", "hex": "#800080" },
+          { "value": "Fuchsia", "type": "color", "hex": "#FF00FF" },
+          { "value": "Green", "type": "color", "hex": "#008000" },
+          { "value": "Lime", "type": "color", "hex": "#00FF00" },
+          { "value": "Olive", "type": "color", "hex": "#808000" },
+          { "value": "Yellow", "type": "color", "hex": "#FFFF00" },
+          { "value": "Navy", "type": "color", "hex": "#000080" },
+          { "value": "Blue", "type": "color", "hex": "#0000FF" },
+          { "value": "Teal", "type": "color", "hex": "#008080" },
+          { "value": "Aqua", "type": "color", "hex": "#00FFFF" }
+        ]
+      }
+    },
+    "displays": {
+      "front": {
+        "label": "Front",
+        "mockup": {
+          "outer": "/templates/1-front-outer.png",
+          "inner": "/templates/1-front.png"
+        },
+        "settings": {
+          "editorSize": { "width": 400, "height": 400 },
+          "captureSize": { "width": 216, "height": 284 },
+          "previewSize": { "width": 400, "height": 400 }
+        }
+      },
+      "back": {
+        "label": "Back",
+        "mockup": {
+          "outer": "/templates/1-back-outer.png",
+          "inner": "/templates/1-back.png"
+        },
+        "settings": {
+          "editorSize": { "width": 400, "height": 400 },
+          "captureSize": { "width": 176, "height": 204 },
+          "previewSize": { "width": 400, "height": 400 }
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "demo": {
+    "title": "Việt Nam",
+    "introduction": "My Việt Nam"
+  },
+  "LocaleSwitcher": {
+    "locale": "{locale, select, vi {Việt nam} en {English} other {Unknown}}",
+    "label": "Thay đổi ngôn ngữ"
+  },
+  "LocaleLayout": {
+    "title": "Tạo ứng dụng NextJs"
+  }
+}
