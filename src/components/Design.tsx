@@ -1,29 +1,56 @@
+"use client";
+
+import { useMockup } from "@/hooks/useMockup";
+import { type Product } from "@/modules";
 import {
   Box,
   Button,
   Card,
   CardContent,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
+import { keys } from "lodash";
 import Image from "next/image";
+import CheckIcon from "@mui/icons-material/Check";
 
 type DesignProps = {
-  products: any;
+  products: Product[];
 };
 
 const Design: React.FC<DesignProps> = ({ products }) => {
+  const [
+    _,
+    {
+      color: colorSelected,
+      productSelected,
+      activeDisplay,
+      handleChangeColor,
+      handleChangeProduct,
+      handleSwitchDisplay,
+    },
+  ] = useMockup(products);
+
   return (
     <Box>
       <Grid container py={2} spacing={3}>
         <Grid item xs={3}>
-          <Grid container>
-            {products.map((product: any) => (
-              <Grid key={product?.id}>
-                <Card>
+          <Grid container spacing={1}>
+            {products.map((product) => (
+              <Grid item key={product?.id}>
+                <Card
+                  onClick={() => handleChangeProduct(product)}
+                  sx={{
+                    border:
+                      productSelected.id === product.id ? "1px solid" : "none",
+                    borderColor: "info.main",
+                    cursor: "pointer",
+                  }}
+                >
                   <CardContent>
                     <Grid container>
-                      <Grid xs={4}>
+                      <Grid item xs={4}>
                         <Image
                           src={product?.thumbnail}
                           alt={product?.id}
@@ -31,7 +58,7 @@ const Design: React.FC<DesignProps> = ({ products }) => {
                           height={62}
                         />
                       </Grid>
-                      <Grid xs={8}>
+                      <Grid item xs={8}>
                         <Typography variant="subtitle2">
                           {product?.name}
                         </Typography>
@@ -40,10 +67,13 @@ const Design: React.FC<DesignProps> = ({ products }) => {
                         </Typography>
                         <Box>
                           <Grid container py={1} gap={"5px"}>
-                            {product.attributes.colors.options.map(
-                              (color: any) => {
-                                return (
-                                  <Grid key={color.value}>
+                            {product.attributes.colors.options.map((color) => {
+                              return (
+                                <Grid item key={color.value}>
+                                  <IconButton
+                                    sx={{ position: "relative" }}
+                                    onClick={() => handleChangeColor(color)}
+                                  >
                                     <i
                                       style={{
                                         display: "block",
@@ -58,10 +88,19 @@ const Design: React.FC<DesignProps> = ({ products }) => {
                                     >
                                       {color.value}
                                     </i>
-                                  </Grid>
-                                );
-                              }
-                            )}
+                                    {productSelected.id === product.id &&
+                                      colorSelected.value === color.value && (
+                                        <CheckIcon
+                                          sx={{
+                                            position: "absolute",
+                                            width: 16,
+                                          }}
+                                        />
+                                      )}
+                                  </IconButton>
+                                </Grid>
+                              );
+                            })}
                           </Grid>
                         </Box>
                       </Grid>
@@ -74,12 +113,27 @@ const Design: React.FC<DesignProps> = ({ products }) => {
         </Grid>
         <Grid item xs={9}>
           <Typography>Switch</Typography>
-          <Button color="info" variant="contained">
-            Front
-          </Button>
-          <Button color="info" style={{ marginLeft: 5 }} variant="contained">
-            Back
-          </Button>
+          {keys(productSelected.displays).map((key, index) => {
+            const display =
+              productSelected.displays[key as keyof Product["displays"]];
+
+            return (
+              <Button
+                key={display.label}
+                color="info"
+                variant="contained"
+                sx={{ ml: index >= 1 ? 1 : 0 }}
+                disabled={activeDisplay === key}
+                onClick={() => handleSwitchDisplay(key)}
+              >
+                {display.label}
+              </Button>
+            );
+          })}
+
+          <Box>
+            <div id="mock-up"></div>
+          </Box>
         </Grid>
       </Grid>
     </Box>

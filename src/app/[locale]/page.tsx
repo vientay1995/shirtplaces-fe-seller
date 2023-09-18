@@ -16,11 +16,12 @@ import {
 import { deepOrange } from "@mui/material/colors";
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import templates from "../../resources/templates.json";
+import templates from "@/resources/templates.json";
+import { Product } from "@/modules";
 
 export default function Home() {
   const [activeStep, setActiveStep] = useState<number>(1);
-  const [selectProducts, setSelectProducts] = useState<any[]>([]);
+  const [selectProducts, setSelectProducts] = useState<Product[]>([]);
 
   const renderTitle = useMemo(() => {
     return {
@@ -44,9 +45,10 @@ export default function Home() {
     setActiveStep((prev) => prev - 1);
   };
 
-  const chooseProducts = async (item: any) => {
+  const chooseProducts = async (item: Product) => {
     if (
-      selectProducts.findIndex((product: any) => product.id === item.id) >= 0
+      selectProducts.findIndex((product: Product) => product.id === item.id) >=
+      0
     ) {
       setSelectProducts(() =>
         selectProducts.filter((product) => product.id !== item.id)
@@ -69,6 +71,7 @@ export default function Home() {
           <CardContent>
             <Grid container py={2}>
               <Grid
+                item
                 xs={1}
                 style={{ maxWidth: 70, alignItems: "center" }}
                 display="flex"
@@ -77,7 +80,7 @@ export default function Home() {
                   {activeStep >= 10 ? activeStep : `0${activeStep}`}
                 </Avatar>
               </Grid>
-              <Grid xs={11}>
+              <Grid item xs={11}>
                 <Box>
                   <Typography>{renderTitle?.title}</Typography>
                   <Typography color={"#74788d"}>
@@ -89,13 +92,13 @@ export default function Home() {
             <Divider />
             {(activeStep === 1 && (
               <Grid container py={3} gap={2}>
-                {templates.map((item) => {
+                {templates.map((item: any) => {
                   const activeProduct =
                     selectProducts.findIndex(
                       (product) => product.id === item.id
                     ) >= 0;
                   return (
-                    <Grid xs={3} key={item.id}>
+                    <Grid item xs={3} key={item.id}>
                       <Card
                         onClick={() => chooseProducts(item)}
                         style={{
@@ -123,7 +126,11 @@ export default function Home() {
             )) || <Design products={selectProducts} />}
             {(activeStep === 1 && (
               <Box display={"flex"} justifyContent={"flex-end"}>
-                <Button variant="contained" onClick={nextStep}>
+                <Button
+                  variant="contained"
+                  onClick={nextStep}
+                  disabled={!selectProducts?.length}
+                >
                   Continue
                 </Button>
               </Box>
