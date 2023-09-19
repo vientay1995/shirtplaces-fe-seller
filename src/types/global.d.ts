@@ -4,4 +4,4 @@ declare interface IntlMessages extends Messages {
   [x: string]: anh;
 }
 
-declare var Konva: any;
+declare var Konva: typeof import("konva").default;

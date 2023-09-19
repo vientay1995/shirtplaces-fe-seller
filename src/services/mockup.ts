@@ -1,3 +1,7 @@
+import { Canvg } from "canvg";
+import { Layer } from "konva/lib/Layer";
+import { Stage } from "konva/lib/Stage";
+
 const ouEvents = {
   image: "xChange yChange rotationChange cropChange widthChange heightChange",
   text: "textChange fontSizeChange fontFamilyChange fontStyleChange fontVariantChange fontWeightChange lineHeightChange alignChange verticalAlignChange paddingChange widthChange heightChange listeningChange visibleChange opacityChange scaleXChange scaleYChange xChange yChange rotationChange",
@@ -13,14 +17,14 @@ class Mockup {
   wrapper: any;
   layers: any;
   initialized: boolean | undefined;
-  editorLayer: any;
+  editorLayer?: Layer;
   editor: any;
-  capture: any;
-  preview: any;
+  capture?: Stage;
+  preview?: Stage;
   captureLayer: any;
-  previewPaint: undefined;
+  previewPaint?: Layer;
   previewLayer: any;
-  active: string | undefined;
+  active?: string | null;
 
   constructor(color: any, display: any, template: any, callback: any) {
     this.template = template;
@@ -566,7 +570,7 @@ class Mockup {
       self.refreshText(textNode);
     });
 
-    self.editorLayer.add(tr);
+    self.editorLayer?.add(tr);
 
     // this.whenFontIsLoaded(function () {
     //   // set font style when font is loaded
@@ -744,10 +748,10 @@ class Mockup {
         height: newHeight,
       });
       // Add the Konva.Image object to a layer and the stage
-      this.previewPaint.add(konvaImg);
-      this.preview.add(this.previewPaint);
+      this.previewPaint?.add(konvaImg);
+      this.preview?.add(this.previewPaint);
 
-      const children = this.previewPaint.getChildren();
+      const children = this.previewPaint?.getChildren() || [];
       for (const child of children) {
         let zi = child.zIndex();
         const id = child.id();
@@ -784,7 +788,7 @@ class Mockup {
         image,
         draggable: false,
       });
-      this.previewPaint.add(img);
+      this?.previewPaint?.add(img);
     });
   }
 
@@ -800,7 +804,7 @@ class Mockup {
     // Create a new Konva.Image object using the canvas element
     const captureImage = new Konva.Image({
       // Use the toCanvas method of the stage to draw the contents of the stage on the canvas
-      image: this.capture.toCanvas(),
+      image: this.capture?.toCanvas(),
       name,
       x: this.dimensions.ox,
       y: this.dimensions.oy,
@@ -843,23 +847,21 @@ class Mockup {
   }
 
   removeLayer(name: string | number) {
-    if (this.active == name) {
+    if (this.active === name) {
       this.active = null;
     }
 
-    const node = this.editorLayer.findOne(`.${name}`);
+    const node = this.editorLayer?.findOne(`.${name}`);
     if (node) {
       const tr = this.editorLayer
-        .find("Transformer")
-        .find((tr: { nodes: () => any[] }) => tr.nodes()[0] === node);
-      if (tr) {
-        tr.destroy();
-      }
-      if (this.transformers[name]) {
-        delete this.transformers[name];
-      }
+        ?.find("Transformer")
+        ?.find((tr) => tr.nodes()[0] === node);
+
+      if (tr) tr.destroy();
+      if (this.transformers[name]) delete this.transformers[name];
+
       node.destroy();
-      this.editorLayer.draw();
+      this.editorLayer?.draw();
     }
 
     const clone = this.captureLayer.findOne(`.${name}`);
@@ -964,6 +966,54 @@ class Mockup {
         element.parentNode.removeChild(element);
       }
     }
+  }
+
+  async export() {
+    this.convertCanvasToSVG(this.preview?.toCanvas());
+  }
+
+  convertCanvasToSVG(canvas?: HTMLCanvasElement) {
+    const svgContainer = document.getElementById("mock-up-export");
+    if (!canvas || !svgContainer) return;
+
+    // Create an SVG element
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", canvas.width);
+    svg.setAttribute("height", canvas.height);
+
+    // Create an image element in SVG to embed the canvas content
+    const image = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "image"
+    );
+    image.setAttribute("x", 0);
+    image.setAttribute("y", 0);
+    image.setAttribute("width", canvas.width);
+    image.setAttribute("height", canvas.height);
+    image.setAttributeNS(
+      "http://www.w3.org/1999/xlink",
+      "xlink:href",
+      canvas.toDataURL("image/png")
+    );
+
+    // Append the image to the SVG
+    svg.appendChild(image);
+
+    // Clear previous SVG content if any
+    svgContainer.innerHTML = "";
+
+    // Append the SVG to the container
+    svgContainer.appendChild(svg);
+
+    // Create a download link for the SVG
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([svgData], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    downloadLink.download = "canvas_to_svg.svg";
+    downloadLink.textContent = "Download SVG";
+    svgContainer.appendChild(downloadLink);
   }
 
   // here is how the function works

@@ -1,5 +1,5 @@
 "use client";
-
+import Script from "next/script";
 import Design from "@/components/Design";
 import styles from "@/styles/page.module.scss";
 import {

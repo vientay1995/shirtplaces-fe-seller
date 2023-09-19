@@ -9,11 +9,14 @@ import {
   CardContent,
   Grid,
   IconButton,
+  Stack,
   Typography,
+  styled,
 } from "@mui/material";
 import { keys } from "lodash";
 import Image from "next/image";
 import CheckIcon from "@mui/icons-material/Check";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 type DesignProps = {
   products: Product[];
@@ -23,12 +26,16 @@ const Design: React.FC<DesignProps> = ({ products }) => {
   const [
     _,
     {
+      layerId,
       color: colorSelected,
       productSelected,
       activeDisplay,
+      removeLayer,
       handleChangeColor,
       handleChangeProduct,
       handleSwitchDisplay,
+      handleSelectImage,
+      handleExport,
     },
   ] = useMockup(products);
 
@@ -42,11 +49,13 @@ const Design: React.FC<DesignProps> = ({ products }) => {
                 <Card
                   onClick={() => handleChangeProduct(product)}
                   sx={{
-                    border:
-                      productSelected.id === product.id ? "1px solid" : "none",
-                    borderColor: "info.main",
+                    borderColor:
+                      productSelected.id === product.id
+                        ? "info.main"
+                        : "transparent",
                     cursor: "pointer",
                   }}
+                  variant="outlined"
                 >
                   <CardContent>
                     <Grid container>
@@ -131,13 +140,50 @@ const Design: React.FC<DesignProps> = ({ products }) => {
             );
           })}
 
-          <Box>
-            <div id="mock-up"></div>
+          <Box display="flex" alignItems="center" flexWrap="wrap">
+            <div id="mock-up" style={{ width: "100%" }}></div>
+
+            <Stack direction="row" spacing={2}>
+              <Button
+                component="label"
+                variant="contained"
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload file
+                <VisuallyHiddenInput type="file" onChange={handleSelectImage} />
+              </Button>
+
+              <Button variant="contained" onClick={handleExport}>
+                Export
+              </Button>
+
+              <Button
+                onClick={() => removeLayer()}
+                disabled={!layerId}
+                variant="outlined"
+              >
+                Remove selected
+              </Button>
+            </Stack>
+
+            <Box id="mock-up-export"></Box>
           </Box>
         </Grid>
       </Grid>
     </Box>
   );
 };
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
 export default Design;
